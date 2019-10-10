@@ -4,3 +4,6 @@ node_modules
 # Output directories
 /es6
 /lib
+
+# Testing and coverage artifacts
+/coverage

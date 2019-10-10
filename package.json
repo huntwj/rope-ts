@@ -3,7 +3,12 @@
   "version": "0.1.0",
   "description": "An implementation of the Rope data type for the JavaScript/TypeScript ecosystem",
   "main": "lib/index.js",
-  "repository": "github.com:huntwj/rope-ts",
+  "module": "es6/index.js",
+  "typings": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huntwj/rope-ts"
+  },
   "author": "Wil Hunt <huntwj@gmail.com>",
   "license": "MIT",
   "private": false,
@@ -18,6 +23,9 @@
   },
   "scripts": {
     "build": "tsc && tsc -p tsconfig.es6.json",
+    "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
+    "jest-clear-cache": "jest --clearCache",
+    "jest": "jest --ci",
     "prettier": "prettier --check \"src/**/*.ts\""
   },
   "prettier": {

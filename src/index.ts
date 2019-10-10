@@ -1,1 +1,1 @@
-console.log("This is the Rope module");
+export const empty = () => "empty rope!";
