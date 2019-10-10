@@ -1,1 +1,1 @@
-export const empty = () => "empty rope!";
+export * from "./rope";
