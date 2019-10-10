@@ -9,10 +9,23 @@ export type Rope = Leaf | Node;
 
 export const empty = (): Rope => "";
 
+/**
+ * Create a Rope from a string.
+ *
+ * This function may return the string as is, since strings are usually valid ropes.
+ * Callers should not assume this, however, as future implementations may break down
+ * large strings into smaller parts.
+ */
 export const fromString = (data: string): Rope => data;
 
+/**
+ * Typeguard to the leaf subtype
+ */
 export const isLeaf = (rope: Rope): rope is Leaf => typeof rope === "string";
 
+/**
+ * Typeguard to the Node subtype
+ */
 export const isNode = (rope: Rope): rope is Node => !isLeaf(rope);
 
 const isNodeRaw = (something: unknown): something is Node =>
@@ -21,12 +34,25 @@ const isNodeRaw = (something: unknown): something is Node =>
   isRope((something as Node).left) &&
   isRope((something as Node).right);
 
+/**
+ * Typeguard to the rope data type
+ */
 export const isRope = (something: unknown): something is Rope =>
   typeof something === "string" || isNodeRaw(something);
 
+/**
+ * Determine the length (in characters) of a given rope.
+ *
+ * Length uses the same rules as the JavaScript `String.length` function.
+ */
 export const length = (rope: Rope): number =>
   isLeaf(rope) ? rope.length : length(rope.left) + length(rope.right);
 
+/**
+ * Combine two Ropes into one
+ *
+ * Equivalent to string concatenation: `concat(left, right)` <=> `left + right`.
+ */
 export const concat = (left: Rope, right: Rope): Rope =>
   left === ""
     ? right
@@ -90,6 +116,12 @@ export const slice = (start: number, end: number) => (rope: Rope): Rope => {
   }
 };
 
+/**
+ * Inserts another rope at the specified index in this rope.
+ *
+ * @param index the 0-based index of the position at which the other rope will be inserted
+ * @param other the rope which will be a sub-rope of the resulting rope
+ */
 export const insertAt = (index: number, other: Rope) => (source: Rope): Rope =>
   concat(
     concat(slice(0, index)(source), other),
