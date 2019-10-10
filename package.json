@@ -1,0 +1,16 @@
+{
+  "name": "rope",
+  "version": "0.1.0",
+  "description": "An implementation of the Rope data type for the JavaScript/TypeScript ecosystem",
+  "main": "dist/index.js",
+  "repository": "github.com:huntwj/rope-ts",
+  "author": "Wil Hunt <huntwj@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "@types/jest": "^24.0.18",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.6.4"
+  }
+}
