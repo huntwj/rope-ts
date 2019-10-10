@@ -127,3 +127,14 @@ export const insertAt = (index: number, other: Rope) => (source: Rope): Rope =>
     concat(slice(0, index)(source), other),
     slice(index, length(source))(source),
   );
+
+/**
+ * Return a new rope with the given range deleted
+ *
+ * @param start the inclusive index to begin the deletion
+ * @param end the exclusive index of where to end the deletion
+ */
+export const deleteRange = (start: number, end: number) => (rope: Rope): Rope =>
+  end < start
+    ? rope
+    : concat(slice(0, start)(rope), slice(end, length(rope))(rope));

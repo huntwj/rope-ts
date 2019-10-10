@@ -3,15 +3,24 @@ import { pipe } from "fp-ts/lib/pipeable";
 import {
   charAt,
   concat,
+  deleteRange,
   empty,
   fromString,
   insertAt,
+  isLeaf,
   isNode,
   isRope,
   length,
   Rope,
   slice,
 } from "../src";
+
+// Dangerous debug function. This could get scary fast.
+const ropeToString = (rope: Rope): string =>
+  isLeaf(rope) ? rope : ropeToString(rope.left) + ropeToString(rope.right);
+
+const inspect = (rope: Rope): string =>
+  `{ ${length(rope)} : '${ropeToString(rope)}' }`;
 
 expect.extend({
   toBeEquivalentTo(received: unknown, expected: Rope) {
@@ -27,7 +36,9 @@ expect.extend({
     if (expectedLen !== len) {
       return {
         message: () =>
-          `expected ropes to have same length (${len} !== ${expectedLen}).`,
+          `Comparing '${inspect(received)}' to '${inspect(
+            expected,
+          )}'. Expected ropes to have same length (${len} !== ${expectedLen}).`,
         pass: false,
       };
     }
@@ -247,6 +258,71 @@ describe("insert", () => {
 
     expect(result).toBeEquivalentTo(
       fromString("this is a XXXXmore complex rope to deal with."),
+    );
+  });
+});
+
+describe("deleteRange", () => {
+  const rope = complexRope();
+
+  it("should be idempotent when end is less than start", () => {
+    const result = pipe(
+      rope,
+      deleteRange(1, 0),
+    );
+    expect(result).toBeEquivalentTo(rope);
+  });
+
+  it("should delete from the beginnig", () => {
+    const result = pipe(
+      rope,
+      deleteRange(0, 5),
+    );
+    expect(result).toBeEquivalentTo(
+      fromString("is a more complex rope to deal with."),
+    );
+  });
+
+  it("should delete from the middle", () => {
+    const result = pipe(
+      rope,
+      deleteRange(10, 15),
+    );
+    expect(result).toBeEquivalentTo(
+      fromString("this is a complex rope to deal with."),
+    );
+  });
+
+  it("should delete from the end", () => {
+    const result = pipe(
+      rope,
+      deleteRange(35, 41),
+    );
+
+    expect(result).toBeEquivalentTo(
+      fromString("this is a more complex rope to deal"),
+    );
+  });
+
+  it("should allow start to be negative", () => {
+    const result = pipe(
+      rope,
+      deleteRange(-5, 5),
+    );
+
+    expect(result).toBeEquivalentTo(
+      fromString("is a more complex rope to deal with."),
+    );
+  });
+
+  it("should allow the end to run past the rope end", () => {
+    const result = pipe(
+      rope,
+      deleteRange(35, 50),
+    );
+
+    expect(result).toBeEquivalentTo(
+      fromString("this is a more complex rope to deal"),
     );
   });
 });
