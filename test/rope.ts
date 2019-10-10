@@ -1,12 +1,16 @@
+import { pipe } from "fp-ts/lib/pipeable";
+
 import {
   charAt,
   concat,
   empty,
   fromString,
+  insertAt,
   isNode,
   isRope,
   length,
   Rope,
+  slice,
 } from "../src";
 
 expect.extend({
@@ -173,5 +177,76 @@ describe("Short Ropes", () => {
         expect(charAt(12)(big)).toBe("2");
       });
     });
+  });
+});
+
+const complexRope = () =>
+  concat(
+    concat("this", concat(" is a", " more")),
+    concat(concat(" complex ", "rope"), " to deal with."),
+  );
+
+describe("slice", () => {
+  const rope = complexRope();
+
+  it("should return empty when end is before start", () => {
+    expect(slice(2, 1)(rope)).toBeEquivalentTo(empty());
+  });
+
+  it("should return an empty Rope on slice(0,0)", () => {
+    expect(slice(0, 0)(rope)).toBeEquivalentTo(empty());
+  });
+
+  it("should be able to grab a slice from the first piece", () => {
+    const result = slice(1, 3)(rope);
+    expect(result).toBeEquivalentTo(fromString("hi"));
+  });
+
+  it("should be able to grab a slice from the second piece", () => {
+    const result = slice(5, 7)(rope);
+    expect(result).toBeEquivalentTo(fromString("is"));
+  });
+
+  it("should be able to graft pieces across multiple slices", () => {
+    const result = slice(2, 7)(rope);
+    expect(result).toBeEquivalentTo(fromString("is is"));
+  });
+
+  it("should be able to slice from the right hand side as well", () => {
+    const result = slice(15, 22)(rope);
+    expect(result).toBeEquivalentTo(fromString("complex"));
+  });
+});
+
+describe("insert", () => {
+  it("should insert at the beginning", () => {
+    const result = pipe(
+      "right",
+      fromString,
+      insertAt(0, fromString("left")),
+    );
+
+    expect(result).toBeEquivalentTo(fromString("leftright"));
+  });
+
+  it("should insert at the end", () => {
+    const result = pipe(
+      "left",
+      fromString,
+      insertAt(4, fromString("right")),
+    );
+
+    expect(result).toBeEquivalentTo(fromString("leftright"));
+  });
+
+  it("should insert in the middle", () => {
+    const result = pipe(
+      complexRope(),
+      insertAt(10, fromString("XXXX")),
+    );
+
+    expect(result).toBeEquivalentTo(
+      fromString("this is a XXXXmore complex rope to deal with."),
+    );
   });
 });
