@@ -31,7 +31,7 @@ export const charAt = (index: number) => (rope: Rope): string => {
     return rope[index];
   } else {
     const leftLen = length(rope.left);
-    return leftLen < index
+    return leftLen < index + 1
       ? charAt(index - leftLen)(rope.right)
       : charAt(index)(rope.left);
   }

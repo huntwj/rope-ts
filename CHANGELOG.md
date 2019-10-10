@@ -1,5 +1,9 @@
 # Changelog
 
+# 0.1.2
+
+- Fix off-by-one error in charAt
+
 # 0.1.1
 
 - Initial implementation of Rope data structures and subset of initial functionality

@@ -51,6 +51,8 @@ describe("Short Ropes", () => {
         expect(Rope.length(big)).toBe(Rope.length(rope) + Rope.length(rope2));
 
         expect(Rope.charAt(5)(big)).toBe("s");
+        expect(Rope.charAt(10)(big)).toBe("g");
+        expect(Rope.charAt(11)(big)).toBe("1");
         expect(Rope.charAt(12)(big)).toBe("2");
       });
     });

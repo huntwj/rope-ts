@@ -1,6 +1,6 @@
 {
   "name": "rope-adt",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "An implementation of the Rope data type for the JavaScript/TypeScript ecosystem",
   "files": [
     "lib",
