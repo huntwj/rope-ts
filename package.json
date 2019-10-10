@@ -32,6 +32,7 @@
     "jest": "jest --ci",
     "prepare": "yarn build",
     "prettier": "prettier --list-different \"./{src,test,tutorials}/**/*.ts\"",
+    "prettier:fix": "prettier --write \"./{src,test,tutorials}/**/*.ts\"",
     "test": "yarn lint && yarn prettier && yarn jest-clear-cache && yarn jest"
   },
   "prettier": {
