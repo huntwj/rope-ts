@@ -2,7 +2,7 @@
   "name": "rope",
   "version": "0.1.0",
   "description": "An implementation of the Rope data type for the JavaScript/TypeScript ecosystem",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "repository": "github.com:huntwj/rope-ts",
   "author": "Wil Hunt <huntwj@gmail.com>",
   "license": "MIT",
